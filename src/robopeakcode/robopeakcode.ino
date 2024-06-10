@@ -1,37 +1,53 @@
 #include <ros.h>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-                      ;
+#include <std_msgs/Int32.h>
+#include <std_msgs/String.h>
+#include "CytronMotorDriver.h"
+#include <Servo.h>
+#include <Wire.h>
+//pwm channels D3,D5,D6,D9,D10
+int VacuumVelocity=0;
+// Configure the motor driver.
+CytronMD vacuummotor(PWM_DIR, 9, 4);  // PWM = Pin 3, DIR = Pin 4.
+// Main Brush Motor
+int enA = 9;
+int in1 = 5;
+int in2 = 6;
+// Side Brush Motors
+int enB = 10;
+int in3 = 7;
+int in4 = 8; 
+// Configure the motor driver.
+CytronMD leftmotor(PWM_DIR, 5, 4);  
+CytronMD rightmotor(PWM_DIR, 6, 7);  
+//encoder interrupt pins
+int encoderPinLeft=2;  
+int encoderPinRight=3;  
+int ENA=8;
+int ENB=9;
+//left encoder pulses
+volatile unsigned long totalPulsesLeft = 0;
+//right encoder pulses
+volatile unsigned long totalPulsesRight = 0;
 //left servo angle
 volatile unsigned long AngleLeft = 0;
 //right servo angle
 volatile unsigned long AngleRight = 0;
-
 // motor velocities - these variables are set by ROS
 // left motor
 int motorVelocityLeft=0;
 // right motor
 int motorVelocityRight=0;
-
 // configure the servo
 Servo leftservo;
 Servo rightservo;
-
 int posleft=0;
 int posright=0;
 
 ros::NodeHandle nh;
+
+void callBackFunctionMotorVacuum(const std_msgs::Int32 &VacuumVelocityROS){
+  VacuumVelocity=VacuumVelocityROS.data;
+}
 
 void callBackFunctionServoLeft(const std_msgs::Int32 &servoAngleLeftROS){
   posleft=servoAngleLeftROS.data;
@@ -64,6 +80,10 @@ std_msgs::String rightAngleROS;
 ros::Publisher rightAngleROSPublisher("right_angle", &rightAngleROS);
 
 
+//subscribers for vacuum motor
+//vacuum motor
+ros::Subscriber<std_msgs::Int32>VacuumMotorROSSubsciber("vacuum_motor_velocity",&callBackFunctionMotorVacuum);
+
 //subscribers for left and right motor velocities
 //left motor
 ros::Subscriber<std_msgs::Int32>leftMotorROSSubsciber("left_motor_velocity",&callBackFunctionMotorLeft);
@@ -78,6 +98,15 @@ ros::Subscriber<std_msgs::Int32>rightServoROSSubsciber("right_servo_angle",&call
 
 // The setup routine runs once when you press reset.
 void setup() {
+  vacuummotor.setSpeed(VacuumVelocity);
+   // Set all the motor control pins to outputs
+ 
+  pinMode(enA, OUTPUT);
+  pinMode(enB, OUTPUT);
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
   //set the encoder pins
   pinMode(encoderPinLeft, INPUT);
   pinMode(encoderPinRight, INPUT);
@@ -113,6 +142,7 @@ void setup() {
  nh.subscribe(rightMotorROSSubsciber);
  nh.subscribe(leftServoROSSubsciber);
  nh.subscribe(rightServoROSSubsciber);
+ nh.subscribe(VacuumMotorROSSubsciber);
   
 }
 
@@ -120,6 +150,26 @@ void setup() {
 // The loop routine runs over and over again forever.
 void loop() {
 nh.spinOnce();
+// Turn on motor A
+ 
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+ 
+  // Set speed to 200 out of possible range 0~255
+ 
+  analogWrite(enA, VacuumVelocity);
+ 
+  // Turn on motor B
+ 
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+ 
+  // Set speed to 200 out of possible range 0~255
+ 
+  analogWrite(enB, VacuumVelocity);
+
+  vacuummotor.setSpeed(VacuumVelocity);
+
 //analogWrite(ENA, motorVelocityLeft);
 //Set the direction and turn ON
 //left motor
@@ -145,9 +195,6 @@ rightAngleROS.data = AngleRight;
 rightAngleROSPublisher.publish(&rightAngleROS);
 ServoLeft();
 
-
-
-delay(5);
 }
 
 //interrupt function left encoder
@@ -202,9 +249,7 @@ void ServoLeft(){
           if(motorVelocityRight < 0){
             AngleRight = "BB";
           }
-        }
-        
-        
+        }    
 }
 void ServoRight(){
         if(posright < 0){

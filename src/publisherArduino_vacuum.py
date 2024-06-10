@@ -37,5 +37,3 @@ while not rospy.is_shutdown():
   publisherVacuumMotor.publish(VacuumMotor)
 
   ratePublisher.sleep()
-
-ssh-keygen -t ed25519 -C "minaehabmegalaaa@gmail.com"

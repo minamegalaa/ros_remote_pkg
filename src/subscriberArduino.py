@@ -2,6 +2,7 @@
 
 import rospy
 from std_msgs.msg import Int32
+from std_msgs.msg import String
 
 nodeName='messagesubs'
 
@@ -27,7 +28,7 @@ rospy.init_node(nodeName,anonymous=True)
 
 rospy.Subscriber(topicNameLeftEncoder, Int32, callBackFunctionLeftEncoder)
 rospy.Subscriber(topicNameRightEncoder, Int32, callBackFunctionRightEncoder)
-rospy.Subscriber(topicNameLeftAngle, Int32, callBackFunctionLeftAngle)
-rospy.Subscriber(topicNameRightAngle, Int32, callBackFunctionRightAngle)
+rospy.Subscriber(topicNameLeftAngle, String, callBackFunctionLeftAngle)
+rospy.Subscriber(topicNameRightAngle, String, callBackFunctionRightAngle)
 
 rospy.spin()

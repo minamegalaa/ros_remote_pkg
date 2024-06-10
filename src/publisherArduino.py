@@ -27,6 +27,23 @@ rightMotor=0
 leftServo=0
 rightServo=0
 
+def parseInput(input:str) -> Int32:
+  input = input.lower()
+  if input == "lowf":
+    return -85
+  if input == "midf":
+    return -170
+  if input == "highf":
+    return -255
+  if input == "lowb":
+    return 85
+  if input == "midb":
+    return 170
+  if input == "highb":
+    return 255
+  if input == "off":
+    return 0
+
 
 while not rospy.is_shutdown():
   rospy.loginfo(leftMotor)
@@ -34,15 +51,30 @@ while not rospy.is_shutdown():
   rospy.loginfo(leftServo)
   rospy.loginfo(rightServo)
 
-  leftMotor = int(input("Enter left motor velocity (-255-255) : \n "))
-  rightMotor = int(input("Enter right motor velocity (-255-255) : \n "))
+  userinput = input("Enter left motor velocity (-255-255) : \n ")
+  leftMotor = parseInput(userinput)
+  userinput = input("Enter right motor velocity (-255-255) : \n ")
+  rightMotor = parseInput(userinput)
 
   leftServo = int(input("Enter left servo angle (0-360) : \n "))
   rightServo = int(input("Enter right servo angle (0-360) : \n "))
+  for i in range(10):
+    publisherLeftMotor.publish(leftMotor)
+    publisherRightMotor.publish(rightMotor)
+    publisherLeftServo.publish(leftServo)
+    publisherRightServo.publish(rightServo)
+  
+  ratePublisher.sleep()
 
-  publisherLeftMotor.publish(leftMotor)
-  publisherRightMotor.publish(rightMotor)
-  publisherLeftMotor.publish(leftServo)
-  publisherRightMotor.publish(rightServo)
+  #leftMotor = int(input("Enter left motor velocity (-255-255) : \n "))
+  #rightMotor = int(input("Enter right motor velocity (-255-255) : \n "))
 
-ratePublisher.sleep()
+  #leftServo = int(input("Enter left servo angle (0-360) : \n "))
+  #rightServo = int(input("Enter right servo angle (0-360) : \n "))
+  #for i in range(10):
+    #publisherLeftMotor.publish(leftMotor)
+    #publisherRightMotor.publish(rightMotor)
+    #publisherLeftServo.publish(leftServo)
+    #publisherRightServo.publish(rightServo)
+  
+  #ratePublisher.sleep()

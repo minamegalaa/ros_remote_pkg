@@ -1,6 +1,21 @@
 #include <ros.h>
-  
-                      ;
+#include <std_msgs/Int32.h>
+#include <std_msgs/String.h>
+#include "CytronMotorDriver.h"
+#include <Servo.h>
+
+// Configure the motor driver.
+CytronMD leftmotor(PWM_DIR, 5, 4);  
+CytronMD rightmotor(PWM_DIR, 6, 7);  
+//encoder interrupt pins
+int encoderPinLeft=2;  
+int encoderPinRight=3;  
+int ENA=8;
+int ENB=9;
+//left encoder pulses
+volatile unsigned long totalPulsesLeft = 0;
+//right encoder pulses
+volatile unsigned long totalPulsesRight = 0;
 //left servo angle
 volatile unsigned long AngleLeft = 0;
 //right servo angle
@@ -200,5 +215,4 @@ void ServoRight(){
         }
         if(posright> 0){
           AngleRight++;
-        }
-}
+        }}

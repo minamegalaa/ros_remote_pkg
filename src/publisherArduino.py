@@ -27,22 +27,35 @@ rightMotor=0
 leftServo=0
 rightServo=0
 
-def parseInput(input:str) -> Int32:
-  input = input.lower()
-  if input == "lowf":
-    return -85
-  if input == "midf":
-    return -170
-  if input == "highf":
-    return -255
-  if input == "lowb":
-    return 85
-  if input == "midb":
-    return 170
-  if input == "highb":
-    return 255
-  if input == "off":
-    return 0
+def parseInput(input:str) :
+	input = input.lower()
+	if input == "n":
+		motor = -255
+		servo = 0
+	elif input == "s":
+		motor = 255
+		servo = 0
+	elif input == "e":
+		motor = 255
+		servo = 90
+	elif input == "w":
+		motor = -255
+		servo = 90
+	elif input == "ne":
+		motor = -255
+		servo = 45
+	elif input == "sw":
+		motor = -255
+		servo = 45
+	elif input == "nw":
+		motor = -255
+		servo = 135
+	elif input == "se":
+		motor = -255
+		servo = 135
+	
+		
+	return motor, motor, servo, servo
 
 
 while not rospy.is_shutdown():
@@ -51,13 +64,16 @@ while not rospy.is_shutdown():
   rospy.loginfo(leftServo)
   rospy.loginfo(rightServo)
 
-  userinput = input("Enter left motor velocity (lowf,midf,highf,lowb,midb,highb,off) : \n ")
-  leftMotor = parseInput(userinput)
-  userinput = input("Enter right motor velocity (lowf,midf,highf,lowb,midb,highb,off) : \n ")
-  rightMotor = parseInput(userinput)
+  userinput = input("Enter Direction : \n ")
+  leftMotor, rightMotor, leftServo, rightServo = parseInput(userinput)
 
-  leftServo = int(input("Enter left servo angle (0-360) : \n "))
-  rightServo = int(input("Enter right servo angle (0-360) : \n "))
+  #userinput = input("Enter left motor velocity (lowf,midf,highf,lowb,midb,highb,off) : \n ")
+  #leftMotor = parseInput(userinput)
+  #userinput = input("Enter right motor velocity (lowf,midf,highf,lowb,midb,highb,off) : \n ")
+  #rightMotor = parseInput(userinput)
+
+  #leftServo = int(input("Enter left servo angle (0-360) : \n "))
+  #rightServo = int(input("Enter right servo angle (0-360) : \n "))
   for i in range(10):
     publisherLeftMotor.publish(leftMotor)
     publisherRightMotor.publish(rightMotor)

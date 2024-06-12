@@ -193,7 +193,7 @@ leftAngleROSPublisher.publish(&leftAngleROS);
 
 rightAngleROS.data = AngleRight;
 rightAngleROSPublisher.publish(&rightAngleROS);
-ServoLeft();
+//ServoLeft();
 
 }
 
@@ -213,7 +213,7 @@ void interruptFunctionRight(){
         if(motorVelocityRight > 0){
           totalPulsesRight++;
         }
-}
+}/*
 void ServoLeft(){
         if(motorVelocityRight == 0) {
           AngleRight = "SS";
@@ -259,3 +259,4 @@ void ServoRight(){
           AngleRight++;
         }
 }
+*/

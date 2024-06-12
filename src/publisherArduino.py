@@ -30,32 +30,52 @@ rightServo=0
 def parseInput(input:str) :
 	input = input.lower()
 	if input == "n":
-		motor = -255
-		servo = 0
+		leftmotor = -255
+		rightmotor = -255
+		leftservo = 0
+		rightservo = 0
 	elif input == "s":
-		motor = 255
-		servo = 0
+		leftmotor = 255
+		rightmotor = -255
+		leftservo = 0
+		rightservo = 0
 	elif input == "e":
-		motor = 255
-		servo = 90
+		leftmotor = -255
+		rightmotor = -255
+		leftservo = 90
+		rightservo = 90
 	elif input == "w":
-		motor = -255
-		servo = 90
+		leftmotor = 255
+		rightmotor = 255
+		leftservo = 90
+		rightservo = 90
 	elif input == "ne":
-		motor = -255
-		servo = 45
+		leftmotor = 255
+		rightmotor = 255
+		leftservo = 45
+		rightservo = 45
 	elif input == "sw":
-		motor = -255
-		servo = 45
+		leftmotor = -255
+		rightmotor = -255
+		leftservo = 45
+		rightservo = 45
 	elif input == "nw":
-		motor = -255
-		servo = 135
+		leftmotor = 255
+		rightmotor = 255
+		leftservo = 135
+		rightservo = 135
 	elif input == "se":
-		motor = -255
-		servo = 135
-	
-		
-	return motor, motor, servo, servo
+		leftmotor = -255
+		rightmotor = -255
+		leftservo = 135
+		rightservo = 135
+	elif input == "off":
+		leftmotor = 0
+		rightmotor = 0
+		leftservo = 0
+		rightservo = 0
+
+	return leftmotor, rightmotor, leftservo, rightservo
 
 
 while not rospy.is_shutdown():

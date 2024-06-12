@@ -36,7 +36,7 @@ def parseInput(input:str) :
 		rightservo = 0
 	elif input == "s":
 		leftmotor = 255
-		rightmotor = -255
+		rightmotor = 255
 		leftservo = 0
 		rightservo = 0
 	elif input == "e":

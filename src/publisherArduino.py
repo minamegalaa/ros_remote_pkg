@@ -55,13 +55,13 @@ def parseInput(input:str) :
 		leftservo = 45
 		rightservo = 45
 	elif input == "sw":
-		leftmotor = 255
-		rightmotor = 255
+		leftmotor = -255
+		rightmotor = -255
 		leftservo = 45
 		rightservo = 45
 	elif input == "nw":
-		leftmotor = -255
-		rightmotor = -255
+		leftmotor = 255
+		rightmotor = 255
 		leftservo = 135
 		rightservo = 135
 	elif input == "se":

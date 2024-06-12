@@ -51,9 +51,9 @@ while not rospy.is_shutdown():
   rospy.loginfo(leftServo)
   rospy.loginfo(rightServo)
 
-  userinput = input("Enter left motor velocity (-255-255) : \n ")
+  userinput = input("Enter left motor velocity (lowf,midf,highf,lowb,midb,highb,off) : \n ")
   leftMotor = parseInput(userinput)
-  userinput = input("Enter right motor velocity (-255-255) : \n ")
+  userinput = input("Enter right motor velocity (lowf,midf,highf,lowb,midb,highb,off) : \n ")
   rightMotor = parseInput(userinput)
 
   leftServo = int(input("Enter left servo angle (0-360) : \n "))

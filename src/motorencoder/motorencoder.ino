@@ -1,16 +1,4 @@
 #include <ros.h>
-
-
-
-
-
-
-
-
-
-
-
-
   
                       ;
 //left servo angle

@@ -4,6 +4,9 @@
 #include "CytronMotorDriver.h"
 #include <Servo.h>
 
+//PWM pins: 3, 5, 6, 9, 10, 11
+//Used pins so far: 3,5,6,10,11
+//left 9
 // Configure the motor driver.
 CytronMD leftmotor(PWM_DIR, 5, 4);  
 CytronMD rightmotor(PWM_DIR, 6, 7);  
@@ -215,4 +218,5 @@ void ServoRight(){
         }
         if(posright> 0){
           AngleRight++;
-        }}
+        }
+      }

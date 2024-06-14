@@ -4,19 +4,19 @@
 
 int VacuumVelocity=0;
 // Configure the motor driver.
-CytronMD vacuummotor(PWM_DIR, 3, 4);  // PWM = Pin 3, DIR = Pin 4.
+CytronMD vacuummotor(PWM_DIR, 9, 13);  // PWM = Pin 3, DIR = Pin 4.
 
 // Main Brush Motor
  
 int enA = 9;
-int in1 = 5;
-int in2 = 6;
+int in1 = 14;
+int in2 = 15;
  
 // Side Brush Motors
  
-int enB = 10;
-int in3 = 7;
-int in4 = 8;
+int enB = 9;
+int in3 = 16;
+int in4 = 17;
 
 ros::NodeHandle nh;
 
